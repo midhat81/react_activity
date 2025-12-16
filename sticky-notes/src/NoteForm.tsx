@@ -1,29 +1,33 @@
-import { useState } from 'react';
+import React, { useState } from "react";
 
 interface NoteFormProps {
-  onAdd: (text: string) => void; // [cite: 35]
+  onAdd: (text: string) => void;
 }
 
-export default function NoteForm({ onAdd }: NoteFormProps) {
-  const [text, setText] = useState('');
+const NoteForm: React.FC<NoteFormProps> = ({ onAdd }) => {
+  const [text, setText] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => { // [cite: 65]
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!text.trim()) return; // Challenge: Prevent empty [cite: 60]
-    
-    onAdd(text);
-    setText('');
+    const trimmed = text.trim();
+    if (!trimmed) return;
+    onAdd(trimmed);
+    setText("");
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input 
-        type="text" 
-        value={text} 
-        onChange={(e) => setText(e.target.value)} 
-        placeholder="Type a note..."
+    <form onSubmit={handleSubmit} style={{ marginBottom: "12px" }}>
+      <input
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        placeholder="Write a note..."
+        style={{ padding: "8px", width: "260px" }}
       />
-      <button type="submit">Add</button>
+      <button type="submit" style={{ marginLeft: "8px", padding: "8px 12px" }}>
+        Add
+      </button>
     </form>
   );
-}
+};
+
+export default NoteForm;
